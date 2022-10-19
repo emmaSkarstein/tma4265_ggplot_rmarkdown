@@ -527,7 +527,7 @@ ggplot(data = penguins,
   geom_point(aes(color = species)) +
   scale_color_manual(values = c("orange", "darkcyan", "hotpink")) +
 * labs(color = "Species",
-*      x = "Body mass (g)", y = "Flipper length (mm)") +
+*      x = "Flipper length (mm)", y = "Body mass (g)") +
   theme_bw() +
   theme(legend.position = "top")
 ```
@@ -543,6 +543,8 @@ We can change the axis and legend titles by using `labs()`. The reason we specif
 ---
 
 # A simple plot - Fonts
+
+
 
 
 ```r
@@ -564,19 +566,24 @@ ggplot(data = penguins,
   geom_point(aes(color = species)) +
   scale_color_manual(values = c("orange", "darkcyan", "hotpink")) +
   labs(color = "Species", 
-       x = "Body mass (g)", y = "Flipper length (mm)") + 
+       x = "Flipper length (mm)", y = "Body mass (g)") + 
   theme_bw() +
   theme(legend.position = "top",
 *       text = element_text(family = "Josefin Sans"))
 ```
 
 .pull-left[
-&lt;img src="index_files/figure-html/unnamed-chunk-33-1.png" width="60%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-34-1.png" width="60%" /&gt;
 ]
 
 .pull-right[
 I used Josefin Sans here to make the change obvious. A nice go-to font is Open Sans.
 ]
+
+---
+# Final penguin figure
+
+&lt;img src="index_files/figure-html/unnamed-chunk-35-1.png" width="60%" /&gt;
 
 ---
 # More penguin plots
@@ -586,8 +593,11 @@ You can see some more examples of `ggplot2` plots with the `palmerpenguin` data 
 ![](figs/penguins_vignette.png)
 ---
 # **ggplot2** resources
+
 - [The R graph gallery](https://r-graph-gallery.com/): different graphs in base R and ggplot2, many examples and tutorials.
+
 - [ggplot2 cheatsheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-visualization.pdf)
+
 - Tutorial by Cédric Scherer, ["Graphic design with ggplot2"](https://www.cedricscherer.com/2019/08/05/a-ggplot2-tutorial-for-beautiful-plotting-in-r/) 
   - .small[A really great reference, goes into _great_ detail of all the options of ggplot2]
 
@@ -597,6 +607,8 @@ You can see some more examples of `ggplot2` plots with the `palmerpenguin` data 
 class: center, middle
 
 Thank you for your attention, I hope this is helpful. If you have any questions, go ahead and ask in the forum, I would love to help!
+
+You can see the "solution" to the "Try it yourself" exercises [here](https://github.com/emmaSkarstein/tma4265_ggplot_rmarkdown/blob/master/nice_report.Rmd).
 
 Slides created via the R package [`xaringan`](https://github.com/yihui/xaringan), all code is available [on GitHub](https://github.com/emmaSkarstein/tma4265_ggplot_rmarkdown).
 
