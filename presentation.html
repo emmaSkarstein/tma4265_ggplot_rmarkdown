@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Communicating results with ggplot2 and Rmarkdown</title>
+    <title>Revolutionize your assignments with Rmarkdown and ggplot2</title>
     <meta charset="utf-8" />
     <meta name="author" content="Emma Skarstein" />
     <script src="presentation_files/header-attrs/header-attrs.js"></script>
-    <link href="presentation_files/countdown/countdown.css" rel="stylesheet" />
-    <script src="presentation_files/countdown/countdown.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
     <link rel="stylesheet" href="my_theme.css" type="text/css" />
   </head>
@@ -15,10 +13,10 @@
 class: center, middle, inverse, title-slide
 
 .title[
-# Communicating results with <strong>ggplot2</strong> and <strong>Rmarkdown</strong>
+# Revolutionize your assignments with <strong>Rmarkdown</strong> and <strong>ggplot2</strong>
 ]
 .subtitle[
-## TMA4265 Stochastic modelling
+## or: <em>How to do what you need to do without too much fuss</em>
 ]
 .author[
 ### Emma Skarstein
@@ -36,9 +34,15 @@ class: center, middle, inverse, title-slide
 
 # Goal for today
 
+Two audiences: 
+- those of you who just want to get stuff done
+- those of you who find joy in exploring new tools
+
+--
+
 Overall
 
-- **Create reproducible reports in R using Rmarkdown**
+- **Create reproducible reports in _R_ using Rmarkdown**
 
 --
 
@@ -65,6 +69,7 @@ class: inverse, center, middle
 - [I made an R Markdown file to explain the code for my **master thesis**](https://htmlpreview.github.io/?https://github.com/emmaSkarstein/Citizen_Science_Skarstein_master/blob/master/reports/Short_version_master.html)
 - [**Supplementary material** for academic articles](https://github.com/emmaSkarstein/ISBA2022-Poster/tree/main/Simulation_example)
 - [Using R packages and education to scale Data Science at **Airbnb**](https://medium.com/airbnb-engineering/using-r-packages-and-education-to-scale-data-science-at-airbnb-906faa58e12d)
+- [These slides!](https://github.com/emmaSkarstein/tma4265_ggplot_rmarkdown)
 
 ---
 # First steps
@@ -93,10 +98,7 @@ Open RStudio and create an R Markdown document.
 - Name it whatever you want
 - Choose **HTML** to start with
 
-<div class="countdown" id="timer_af9c34fb" data-update-every="1" tabindex="0" style="right:0;bottom:0;">
-<div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
-<code class="countdown-time"><span class="countdown-digits minutes">02</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
-</div>
+
 
 ---
 # Structure of an R Markdown document
@@ -150,13 +152,11 @@ Chunk options can be set *globally* in the `setup` chunk if you want them to app
 ---
 # Try it yourself
 
-- Knit the template R Markdown file that is generated automatically for you. 
-- Feel free to change the chunk options and change what is visible.
+- First, knit the template R Markdown file that is generated automatically for you. 
+- Next, change the global chunk option `echo` to `FALSE` so that all code is automatically hidden in the report.
+- Using `fig.cap="..."`, add a caption to the plot that is included in the template.
 
-<div class="countdown" id="timer_abf44b10" data-update-every="1" tabindex="0" style="right:0;bottom:0;">
-<div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
-<code class="countdown-time"><span class="countdown-digits minutes">02</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
-</div>
+
 
 ---
 # Including formulas
@@ -179,6 +179,8 @@ Use `\begin{aligned}` and `\end{aligned}`.
 
 becomes
 `$$\begin{aligned} X &amp;\sim \\ &amp;Pois(\lambda) \end{aligned}$$`
+
+
 ---
 # Knitting the document
 
@@ -220,19 +222,79 @@ output: pdf_document
 ]
 
 ---
+# Automatic tables from R output
+
+[kable](https://haozhu233.github.io/kableExtra/awesome_table_in_pdf.pdf) can be used to create nice tables from R output. This can be really useful, because once you have written the code to automatically generate the table from your R output, your table will automatically update once you make changes to your code.
+
+
+```r
+library(kableExtra)
+some_cars &lt;- mtcars[1:5, 1:6]
+```
+
+A basic table:
+
+```r
+kable(some_cars)
+```
+A prettier table:
+
+```r
+kable(some_cars, booktabs = TRUE)
+```
+
+Write `?kable` in *R* for more details of the `kable()` function. 
+
+---
+# Try it yourself
+
+- Add a table to the template (feel free to use exactly the code from the previous slide).
+- Knit to PDF.
+- Find out how to add a caption. .small[(Hint: check `?kable`)]
+- Find out how to make the table centered. .small[(Hint: you will need to use the function `kable_styling()`. Check `?kable_styling`.)]
+
+---
+# Workflow
+
+- As you write code, you can run the code chunks directly **just as you would an R-script**
+  - There is both a button to run the individual chunk, and a button to run all the chunks above.
+- When you knit the file, all the code will be run in a blank environment.
+- Is the code really slow? Check out [cache options](https://bookdown.org/yihui/rmarkdown-cookbook/cache.html)
+- It can be a good idea to knit the document once in a while so you can fix any bugs as they arise. 
+- Errors I see a lot: 
+  - Using `\begin{align}` instead of `\begin{aligned}` (you can use `align`, but then you need to include the *amsmath* LaTeX package)
+  - Blank lines inside equations will lead to errors.
+
+---
+# Best practices for this course
+
+(the most important stuff is written in the assignments, but I just want to explain the reasoning behind these things)
+
+- **Knit to PDF** .small[(this is so we can see it directly in Blackboard)]
+  - .small[If for some reason you can't, knit to HTML, open the HTML in your browser, select print and then "Save to PDF" from there.]
+- **`echo = FALSE` as default** .small[(we don't need to see most of the code in the report, unless you think it integrates nicely with the text and want to include it) (honestly I feel like this is mostly a style choice, it really doesn't matter so much for the grader)]
+  - .small[Note that other courses may have other preferences on this.]
+- **Hand in the PDF file and the `.rmd` file**, *do NOT put them in a .zip file PLEASE!!* .small[(then we need to download it and it is super frustrating and we can't comment in the pdf in Blackboard)]
+
+---
 # Resources
 
 You now should know enough to be able to use R Markdown for this course! There are tons of resources out there, and if you have any problems someone has most likely had the same problem before you, so you can solve most issues by googling.
 
 Here are also some resources that cover R Markdown, both the very basic level and some very advanced stuff.
 
-[**R Markdown tutorial** from RStudio](https://rmarkdown.rstudio.com/lesson-1.html)
 
 [**R Markdown Cookbook** by Yihui Xie, Christophe Dervieux, Emily Riederer](https://bookdown.org/yihui/rmarkdown-cookbook/)  - has many short, practical examples, I link to several in this presentation!
 
+.pull-left[
 [**R Markdown: The Definitive Guide** by Yihui Xie, J. J. Allaire, Garrett Grolemund](https://bookdown.org/yihui/rmarkdown/) - Chapter 2 should be sufficient for this course
 
-[**R Markdown Cheatsheet**](https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf) 
+[**R Markdown Cheatsheet --&gt;**](https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf) 
+]
+.pull-right[
+&lt;img src="figs/cheatsheet.png" width="60%" /&gt;
+]
+
 
 ---
 # Further opportunities with R Markdown
@@ -258,6 +320,9 @@ class: inverse, center, middle
 # Why `ggplot2`?
 
 - It gives you a recognizable system - when you have understood the structure of `ggplot2` it is very easy to understand how to modify things to get exactly the plot you want. 
+
+---
+# 
 
 ---
 # First steps
@@ -331,10 +396,10 @@ ggplot(data = penguins,
        aes(x = flipper_length_mm, y = body_mass_g))
 ```
 .pull-left[
-&lt;img src="presentation_files/figure-html/unnamed-chunk-12-1.png" width="90%" /&gt;
+&lt;img src="presentation_files/figure-html/unnamed-chunk-16-1.png" width="90%" /&gt;
 ]
 .pull-right[
-Lets say we want to plot the flipper length against body mass. We use the `ggplot()` function, and specify the data set, and what we want on the x- and y-axis. If we run this, we see the initialized plot.
+Let's say we want to plot the flipper length against body mass. We use the `ggplot()` function, and specify the data set, and what we want on the x- and y-axis. If we run this, we see the initialized plot.
 ]
 
 ---
@@ -348,7 +413,7 @@ ggplot(data = penguins,
 ```
 
 .pull-left[
-&lt;img src="presentation_files/figure-html/unnamed-chunk-14-1.png" width="90%" /&gt;
+&lt;img src="presentation_files/figure-html/unnamed-chunk-18-1.png" width="90%" /&gt;
 ]
 
 .pull-right[
@@ -366,7 +431,7 @@ ggplot(data = penguins,
 ```
 
 .pull-left[
-&lt;img src="presentation_files/figure-html/unnamed-chunk-16-1.png" width="90%" /&gt;
+&lt;img src="presentation_files/figure-html/unnamed-chunk-20-1.png" width="90%" /&gt;
 ]
 
 .pull-right[
@@ -381,11 +446,11 @@ To color the points by species, add `aes(color = species)` inside `geom_point()`
 ggplot(data = penguins, 
        aes(x = flipper_length_mm, y = body_mass_g)) +
   geom_point(aes(color = species)) +
-* theme_minimal()
+* theme_bw()
 ```
 
 .pull-left[
-&lt;img src="presentation_files/figure-html/unnamed-chunk-18-1.png" width="90%" /&gt;
+&lt;img src="presentation_files/figure-html/unnamed-chunk-22-1.png" width="90%" /&gt;
 ]
 
 .pull-right[
@@ -400,16 +465,483 @@ We can make changes to the layout of the plot by specifying a different theme. T
 ggplot(data = penguins, 
        aes(x = flipper_length_mm, y = body_mass_g)) +
   geom_point(aes(color = species)) +
-  scale_color_manual(values = c("orange", "darkcyan", "hotpink"))
-  theme_minimal() 
+  scale_color_manual(values = c("orange", "darkcyan", "hotpink")) +
+  theme_bw() 
 ```
 
 .pull-left[
-&lt;img src="presentation_files/figure-html/unnamed-chunk-20-1.png" width="90%" /&gt;
+&lt;img src="presentation_files/figure-html/unnamed-chunk-24-1.png" width="90%" /&gt;
 ]
 
 .pull-right[
 The color palette can be changed through `scale_color_...()`. In this case, we want to specify manual values for the colors, but you could also use ready-made color palettes, [there are lots of them!](https://emilhvitfeldt.github.io/r-color-palettes/discrete.html)
+]
+
+---
+# A simple plot - Theme options
+
+
+```r
+ggplot(data = penguins, 
+       aes(x = flipper_length_mm, y = body_mass_g)) +
+  geom_point(aes(color = species)) +
+  scale_color_manual(values = c("orange", "darkcyan", "hotpink")) +
+  theme_bw() +
+  theme(legend.position = "top")
+```
+
+.pull-left[
+&lt;img src="presentation_files/figure-html/unnamed-chunk-26-1.png" width="90%" /&gt;
+
+```
+## List of 93
+##  $ line                      :List of 6
+##   ..$ colour       : chr "black"
+##   ..$ size         : num 0.5
+##   ..$ linetype     : num 1
+##   ..$ lineend      : chr "butt"
+##   ..$ arrow        : logi FALSE
+##   ..$ inherit.blank: logi TRUE
+##   ..- attr(*, "class")= chr [1:2] "element_line" "element"
+##  $ rect                      :List of 5
+##   ..$ fill         : chr "white"
+##   ..$ colour       : chr "black"
+##   ..$ size         : num 0.5
+##   ..$ linetype     : num 1
+##   ..$ inherit.blank: logi TRUE
+##   ..- attr(*, "class")= chr [1:2] "element_rect" "element"
+##  $ text                      :List of 11
+##   ..$ family       : chr ""
+##   ..$ face         : chr "plain"
+##   ..$ colour       : chr "black"
+##   ..$ size         : num 11
+##   ..$ hjust        : num 0.5
+##   ..$ vjust        : num 0.5
+##   ..$ angle        : num 0
+##   ..$ lineheight   : num 0.9
+##   ..$ margin       : 'margin' num [1:4] 0points 0points 0points 0points
+##   .. ..- attr(*, "unit")= int 8
+##   ..$ debug        : logi FALSE
+##   ..$ inherit.blank: logi TRUE
+##   ..- attr(*, "class")= chr [1:2] "element_text" "element"
+##  $ title                     : NULL
+##  $ aspect.ratio              : NULL
+##  $ axis.title                : NULL
+##  $ axis.title.x              :List of 11
+##   ..$ family       : NULL
+##   ..$ face         : NULL
+##   ..$ colour       : NULL
+##   ..$ size         : NULL
+##   ..$ hjust        : NULL
+##   ..$ vjust        : num 1
+##   ..$ angle        : NULL
+##   ..$ lineheight   : NULL
+##   ..$ margin       : 'margin' num [1:4] 2.75points 0points 0points 0points
+##   .. ..- attr(*, "unit")= int 8
+##   ..$ debug        : NULL
+##   ..$ inherit.blank: logi TRUE
+##   ..- attr(*, "class")= chr [1:2] "element_text" "element"
+##  $ axis.title.x.top          :List of 11
+##   ..$ family       : NULL
+##   ..$ face         : NULL
+##   ..$ colour       : NULL
+##   ..$ size         : NULL
+##   ..$ hjust        : NULL
+##   ..$ vjust        : num 0
+##   ..$ angle        : NULL
+##   ..$ lineheight   : NULL
+##   ..$ margin       : 'margin' num [1:4] 0points 0points 2.75points 0points
+##   .. ..- attr(*, "unit")= int 8
+##   ..$ debug        : NULL
+##   ..$ inherit.blank: logi TRUE
+##   ..- attr(*, "class")= chr [1:2] "element_text" "element"
+##  $ axis.title.x.bottom       : NULL
+##  $ axis.title.y              :List of 11
+##   ..$ family       : NULL
+##   ..$ face         : NULL
+##   ..$ colour       : NULL
+##   ..$ size         : NULL
+##   ..$ hjust        : NULL
+##   ..$ vjust        : num 1
+##   ..$ angle        : num 90
+##   ..$ lineheight   : NULL
+##   ..$ margin       : 'margin' num [1:4] 0points 2.75points 0points 0points
+##   .. ..- attr(*, "unit")= int 8
+##   ..$ debug        : NULL
+##   ..$ inherit.blank: logi TRUE
+##   ..- attr(*, "class")= chr [1:2] "element_text" "element"
+##  $ axis.title.y.left         : NULL
+##  $ axis.title.y.right        :List of 11
+##   ..$ family       : NULL
+##   ..$ face         : NULL
+##   ..$ colour       : NULL
+##   ..$ size         : NULL
+##   ..$ hjust        : NULL
+##   ..$ vjust        : num 0
+##   ..$ angle        : num -90
+##   ..$ lineheight   : NULL
+##   ..$ margin       : 'margin' num [1:4] 0points 0points 0points 2.75points
+##   .. ..- attr(*, "unit")= int 8
+##   ..$ debug        : NULL
+##   ..$ inherit.blank: logi TRUE
+##   ..- attr(*, "class")= chr [1:2] "element_text" "element"
+##  $ axis.text                 :List of 11
+##   ..$ family       : NULL
+##   ..$ face         : NULL
+##   ..$ colour       : chr "grey30"
+##   ..$ size         : 'rel' num 0.8
+##   ..$ hjust        : NULL
+##   ..$ vjust        : NULL
+##   ..$ angle        : NULL
+##   ..$ lineheight   : NULL
+##   ..$ margin       : NULL
+##   ..$ debug        : NULL
+##   ..$ inherit.blank: logi TRUE
+##   ..- attr(*, "class")= chr [1:2] "element_text" "element"
+##  $ axis.text.x               :List of 11
+##   ..$ family       : NULL
+##   ..$ face         : NULL
+##   ..$ colour       : NULL
+##   ..$ size         : NULL
+##   ..$ hjust        : NULL
+##   ..$ vjust        : num 1
+##   ..$ angle        : NULL
+##   ..$ lineheight   : NULL
+##   ..$ margin       : 'margin' num [1:4] 2.2points 0points 0points 0points
+##   .. ..- attr(*, "unit")= int 8
+##   ..$ debug        : NULL
+##   ..$ inherit.blank: logi TRUE
+##   ..- attr(*, "class")= chr [1:2] "element_text" "element"
+##  $ axis.text.x.top           :List of 11
+##   ..$ family       : NULL
+##   ..$ face         : NULL
+##   ..$ colour       : NULL
+##   ..$ size         : NULL
+##   ..$ hjust        : NULL
+##   ..$ vjust        : num 0
+##   ..$ angle        : NULL
+##   ..$ lineheight   : NULL
+##   ..$ margin       : 'margin' num [1:4] 0points 0points 2.2points 0points
+##   .. ..- attr(*, "unit")= int 8
+##   ..$ debug        : NULL
+##   ..$ inherit.blank: logi TRUE
+##   ..- attr(*, "class")= chr [1:2] "element_text" "element"
+##  $ axis.text.x.bottom        : NULL
+##  $ axis.text.y               :List of 11
+##   ..$ family       : NULL
+##   ..$ face         : NULL
+##   ..$ colour       : NULL
+##   ..$ size         : NULL
+##   ..$ hjust        : num 1
+##   ..$ vjust        : NULL
+##   ..$ angle        : NULL
+##   ..$ lineheight   : NULL
+##   ..$ margin       : 'margin' num [1:4] 0points 2.2points 0points 0points
+##   .. ..- attr(*, "unit")= int 8
+##   ..$ debug        : NULL
+##   ..$ inherit.blank: logi TRUE
+##   ..- attr(*, "class")= chr [1:2] "element_text" "element"
+##  $ axis.text.y.left          : NULL
+##  $ axis.text.y.right         :List of 11
+##   ..$ family       : NULL
+##   ..$ face         : NULL
+##   ..$ colour       : NULL
+##   ..$ size         : NULL
+##   ..$ hjust        : num 0
+##   ..$ vjust        : NULL
+##   ..$ angle        : NULL
+##   ..$ lineheight   : NULL
+##   ..$ margin       : 'margin' num [1:4] 0points 0points 0points 2.2points
+##   .. ..- attr(*, "unit")= int 8
+##   ..$ debug        : NULL
+##   ..$ inherit.blank: logi TRUE
+##   ..- attr(*, "class")= chr [1:2] "element_text" "element"
+##  $ axis.ticks                :List of 6
+##   ..$ colour       : chr "grey20"
+##   ..$ size         : NULL
+##   ..$ linetype     : NULL
+##   ..$ lineend      : NULL
+##   ..$ arrow        : logi FALSE
+##   ..$ inherit.blank: logi TRUE
+##   ..- attr(*, "class")= chr [1:2] "element_line" "element"
+##  $ axis.ticks.x              : NULL
+##  $ axis.ticks.x.top          : NULL
+##  $ axis.ticks.x.bottom       : NULL
+##  $ axis.ticks.y              : NULL
+##  $ axis.ticks.y.left         : NULL
+##  $ axis.ticks.y.right        : NULL
+##  $ axis.ticks.length         : 'simpleUnit' num 2.75points
+##   ..- attr(*, "unit")= int 8
+##  $ axis.ticks.length.x       : NULL
+##  $ axis.ticks.length.x.top   : NULL
+##  $ axis.ticks.length.x.bottom: NULL
+##  $ axis.ticks.length.y       : NULL
+##  $ axis.ticks.length.y.left  : NULL
+##  $ axis.ticks.length.y.right : NULL
+##  $ axis.line                 : list()
+##   ..- attr(*, "class")= chr [1:2] "element_blank" "element"
+##  $ axis.line.x               : NULL
+##  $ axis.line.x.top           : NULL
+##  $ axis.line.x.bottom        : NULL
+##  $ axis.line.y               : NULL
+##  $ axis.line.y.left          : NULL
+##  $ axis.line.y.right         : NULL
+##  $ legend.background         :List of 5
+##   ..$ fill         : NULL
+##   ..$ colour       : logi NA
+##   ..$ size         : NULL
+##   ..$ linetype     : NULL
+##   ..$ inherit.blank: logi TRUE
+##   ..- attr(*, "class")= chr [1:2] "element_rect" "element"
+##  $ legend.margin             : 'margin' num [1:4] 5.5points 5.5points 5.5points 5.5points
+##   ..- attr(*, "unit")= int 8
+##  $ legend.spacing            : 'simpleUnit' num 11points
+##   ..- attr(*, "unit")= int 8
+##  $ legend.spacing.x          : NULL
+##  $ legend.spacing.y          : NULL
+##  $ legend.key                :List of 5
+##   ..$ fill         : chr "white"
+##   ..$ colour       : logi NA
+##   ..$ size         : NULL
+##   ..$ linetype     : NULL
+##   ..$ inherit.blank: logi TRUE
+##   ..- attr(*, "class")= chr [1:2] "element_rect" "element"
+##  $ legend.key.size           : 'simpleUnit' num 1.2lines
+##   ..- attr(*, "unit")= int 3
+##  $ legend.key.height         : NULL
+##  $ legend.key.width          : NULL
+##  $ legend.text               :List of 11
+##   ..$ family       : NULL
+##   ..$ face         : NULL
+##   ..$ colour       : NULL
+##   ..$ size         : 'rel' num 0.8
+##   ..$ hjust        : NULL
+##   ..$ vjust        : NULL
+##   ..$ angle        : NULL
+##   ..$ lineheight   : NULL
+##   ..$ margin       : NULL
+##   ..$ debug        : NULL
+##   ..$ inherit.blank: logi TRUE
+##   ..- attr(*, "class")= chr [1:2] "element_text" "element"
+##  $ legend.text.align         : NULL
+##  $ legend.title              :List of 11
+##   ..$ family       : NULL
+##   ..$ face         : NULL
+##   ..$ colour       : NULL
+##   ..$ size         : NULL
+##   ..$ hjust        : num 0
+##   ..$ vjust        : NULL
+##   ..$ angle        : NULL
+##   ..$ lineheight   : NULL
+##   ..$ margin       : NULL
+##   ..$ debug        : NULL
+##   ..$ inherit.blank: logi TRUE
+##   ..- attr(*, "class")= chr [1:2] "element_text" "element"
+##  $ legend.title.align        : NULL
+##  $ legend.position           : chr "top"
+##  $ legend.direction          : NULL
+##  $ legend.justification      : chr "center"
+##  $ legend.box                : NULL
+##  $ legend.box.just           : NULL
+##  $ legend.box.margin         : 'margin' num [1:4] 0cm 0cm 0cm 0cm
+##   ..- attr(*, "unit")= int 1
+##  $ legend.box.background     : list()
+##   ..- attr(*, "class")= chr [1:2] "element_blank" "element"
+##  $ legend.box.spacing        : 'simpleUnit' num 11points
+##   ..- attr(*, "unit")= int 8
+##  $ panel.background          :List of 5
+##   ..$ fill         : chr "white"
+##   ..$ colour       : logi NA
+##   ..$ size         : NULL
+##   ..$ linetype     : NULL
+##   ..$ inherit.blank: logi TRUE
+##   ..- attr(*, "class")= chr [1:2] "element_rect" "element"
+##  $ panel.border              :List of 5
+##   ..$ fill         : logi NA
+##   ..$ colour       : chr "grey20"
+##   ..$ size         : NULL
+##   ..$ linetype     : NULL
+##   ..$ inherit.blank: logi TRUE
+##   ..- attr(*, "class")= chr [1:2] "element_rect" "element"
+##  $ panel.spacing             : 'simpleUnit' num 5.5points
+##   ..- attr(*, "unit")= int 8
+##  $ panel.spacing.x           : NULL
+##  $ panel.spacing.y           : NULL
+##  $ panel.grid                :List of 6
+##   ..$ colour       : chr "grey92"
+##   ..$ size         : NULL
+##   ..$ linetype     : NULL
+##   ..$ lineend      : NULL
+##   ..$ arrow        : logi FALSE
+##   ..$ inherit.blank: logi TRUE
+##   ..- attr(*, "class")= chr [1:2] "element_line" "element"
+##  $ panel.grid.major          : NULL
+##  $ panel.grid.minor          :List of 6
+##   ..$ colour       : NULL
+##   ..$ size         : 'rel' num 0.5
+##   ..$ linetype     : NULL
+##   ..$ lineend      : NULL
+##   ..$ arrow        : logi FALSE
+##   ..$ inherit.blank: logi TRUE
+##   ..- attr(*, "class")= chr [1:2] "element_line" "element"
+##  $ panel.grid.major.x        : NULL
+##  $ panel.grid.major.y        : NULL
+##  $ panel.grid.minor.x        : NULL
+##  $ panel.grid.minor.y        : NULL
+##  $ panel.ontop               : logi FALSE
+##  $ plot.background           :List of 5
+##   ..$ fill         : NULL
+##   ..$ colour       : chr "white"
+##   ..$ size         : NULL
+##   ..$ linetype     : NULL
+##   ..$ inherit.blank: logi TRUE
+##   ..- attr(*, "class")= chr [1:2] "element_rect" "element"
+##  $ plot.title                :List of 11
+##   ..$ family       : NULL
+##   ..$ face         : NULL
+##   ..$ colour       : NULL
+##   ..$ size         : 'rel' num 1.2
+##   ..$ hjust        : num 0
+##   ..$ vjust        : num 1
+##   ..$ angle        : NULL
+##   ..$ lineheight   : NULL
+##   ..$ margin       : 'margin' num [1:4] 0points 0points 5.5points 0points
+##   .. ..- attr(*, "unit")= int 8
+##   ..$ debug        : NULL
+##   ..$ inherit.blank: logi TRUE
+##   ..- attr(*, "class")= chr [1:2] "element_text" "element"
+##  $ plot.title.position       : chr "panel"
+##  $ plot.subtitle             :List of 11
+##   ..$ family       : NULL
+##   ..$ face         : NULL
+##   ..$ colour       : NULL
+##   ..$ size         : NULL
+##   ..$ hjust        : num 0
+##   ..$ vjust        : num 1
+##   ..$ angle        : NULL
+##   ..$ lineheight   : NULL
+##   ..$ margin       : 'margin' num [1:4] 0points 0points 5.5points 0points
+##   .. ..- attr(*, "unit")= int 8
+##   ..$ debug        : NULL
+##   ..$ inherit.blank: logi TRUE
+##   ..- attr(*, "class")= chr [1:2] "element_text" "element"
+##  $ plot.caption              :List of 11
+##   ..$ family       : NULL
+##   ..$ face         : NULL
+##   ..$ colour       : NULL
+##   ..$ size         : 'rel' num 0.8
+##   ..$ hjust        : num 1
+##   ..$ vjust        : num 1
+##   ..$ angle        : NULL
+##   ..$ lineheight   : NULL
+##   ..$ margin       : 'margin' num [1:4] 5.5points 0points 0points 0points
+##   .. ..- attr(*, "unit")= int 8
+##   ..$ debug        : NULL
+##   ..$ inherit.blank: logi TRUE
+##   ..- attr(*, "class")= chr [1:2] "element_text" "element"
+##  $ plot.caption.position     : chr "panel"
+##  $ plot.tag                  :List of 11
+##   ..$ family       : NULL
+##   ..$ face         : NULL
+##   ..$ colour       : NULL
+##   ..$ size         : 'rel' num 1.2
+##   ..$ hjust        : num 0.5
+##   ..$ vjust        : num 0.5
+##   ..$ angle        : NULL
+##   ..$ lineheight   : NULL
+##   ..$ margin       : NULL
+##   ..$ debug        : NULL
+##   ..$ inherit.blank: logi TRUE
+##   ..- attr(*, "class")= chr [1:2] "element_text" "element"
+##  $ plot.tag.position         : chr "topleft"
+##  $ plot.margin               : 'margin' num [1:4] 5.5points 5.5points 5.5points 5.5points
+##   ..- attr(*, "unit")= int 8
+##  $ strip.background          :List of 5
+##   ..$ fill         : chr "grey85"
+##   ..$ colour       : chr "grey20"
+##   ..$ size         : NULL
+##   ..$ linetype     : NULL
+##   ..$ inherit.blank: logi TRUE
+##   ..- attr(*, "class")= chr [1:2] "element_rect" "element"
+##  $ strip.background.x        : NULL
+##  $ strip.background.y        : NULL
+##  $ strip.placement           : chr "inside"
+##  $ strip.text                :List of 11
+##   ..$ family       : NULL
+##   ..$ face         : NULL
+##   ..$ colour       : chr "grey10"
+##   ..$ size         : 'rel' num 0.8
+##   ..$ hjust        : NULL
+##   ..$ vjust        : NULL
+##   ..$ angle        : NULL
+##   ..$ lineheight   : NULL
+##   ..$ margin       : 'margin' num [1:4] 4.4points 4.4points 4.4points 4.4points
+##   .. ..- attr(*, "unit")= int 8
+##   ..$ debug        : NULL
+##   ..$ inherit.blank: logi TRUE
+##   ..- attr(*, "class")= chr [1:2] "element_text" "element"
+##  $ strip.text.x              : NULL
+##  $ strip.text.y              :List of 11
+##   ..$ family       : NULL
+##   ..$ face         : NULL
+##   ..$ colour       : NULL
+##   ..$ size         : NULL
+##   ..$ hjust        : NULL
+##   ..$ vjust        : NULL
+##   ..$ angle        : num -90
+##   ..$ lineheight   : NULL
+##   ..$ margin       : NULL
+##   ..$ debug        : NULL
+##   ..$ inherit.blank: logi TRUE
+##   ..- attr(*, "class")= chr [1:2] "element_text" "element"
+##  $ strip.switch.pad.grid     : 'simpleUnit' num 2.75points
+##   ..- attr(*, "unit")= int 8
+##  $ strip.switch.pad.wrap     : 'simpleUnit' num 2.75points
+##   ..- attr(*, "unit")= int 8
+##  $ strip.text.y.left         :List of 11
+##   ..$ family       : NULL
+##   ..$ face         : NULL
+##   ..$ colour       : NULL
+##   ..$ size         : NULL
+##   ..$ hjust        : NULL
+##   ..$ vjust        : NULL
+##   ..$ angle        : num 90
+##   ..$ lineheight   : NULL
+##   ..$ margin       : NULL
+##   ..$ debug        : NULL
+##   ..$ inherit.blank: logi TRUE
+##   ..- attr(*, "class")= chr [1:2] "element_text" "element"
+##  - attr(*, "class")= chr [1:2] "theme" "gg"
+##  - attr(*, "complete")= logi TRUE
+##  - attr(*, "validate")= logi TRUE
+```
+]
+
+.pull-right[
+In the `theme()` function you can change stuff like background color, font, text sizes and colors, and much more, basically anything that has to do with the layout. There we move the legend to be on the top.
+]
+
+---
+# A simple plot - Axis and legend titles
+
+
+```r
+ggplot(data = penguins, 
+       aes(x = flipper_length_mm, y = body_mass_g)) +
+  geom_point(aes(color = species)) +
+  scale_color_manual(values = c("orange", "darkcyan", "hotpink")) +
+* xlab("Body mass (g)") + ylab("Flipper length (mm)") +
+* labs(color = "Species") +
+  theme_bw() +
+  theme(legend.position = "top")
+```
+
+.pull-left[
+&lt;img src="presentation_files/figure-html/unnamed-chunk-28-1.png" width="90%" /&gt;
+]
+
+.pull-right[
+We can change the axis titles by using `xlab()` and `ylab()`, and the legend title can be changed in `labs()`. The reason we specify `color = "Species` is that we want the legend for color to have this title. `labs()` is also where you can add a title, subtitle and caption.
 ]
 
 ---
@@ -423,7 +955,7 @@ showtext_auto()
 font_add_google(name = "Josefin Sans", family = "Josefin Sans")
 ```
 
-The package `showtext` is great for changing fonts.
+The package `showtext` is great for changing fonts. You can change the font to any font from [Google Fonts](https://fonts.google.com/).
 
 ---
 
@@ -436,15 +968,16 @@ ggplot(data = penguins,
   geom_point(aes(color = species)) +
   scale_color_manual(values = c("orange", "darkcyan", "hotpink")) +
   theme_bw() +
-  theme(text = element_text(family = "Josefin Sans"))
+  theme(legend.position = "top",
+*       text = element_text(family = "Josefin Sans"))
 ```
 
 .pull-left[
-&lt;img src="presentation_files/figure-html/unnamed-chunk-23-1.png" width="90%" /&gt;
+&lt;img src="presentation_files/figure-html/unnamed-chunk-31-1.png" width="90%" /&gt;
 ]
 
 .pull-right[
-Just putting some text here now
+I used Josefin Sans here to make the change obvious. A nice go-to font is Open Sans.
 ]
 
 ---
@@ -453,12 +986,18 @@ Just putting some text here now
 You can see some more examples of `ggplot2` plots with the `palmerpenguin` data [here](https://allisonhorst.github.io/palmerpenguins/articles/examples.html).
 
 ![](figs/penguins_vignette.png)
+---
+# **ggplot2** resources
+- [The R graph gallery](https://r-graph-gallery.com/): different graphs in base R and ggplot2, many examples and tutorials.
+- [ggplot2 cheatsheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-visualization.pdf)
+- Slides from a talk by Cédric Scherer, ["Graphic design with ggplot2"](https://rstudio-conf-2022.github.io/ggplot2-graphic-design/) 
+  - .small[A really great reference, goes into _great_ detail of all the options of ggplot2]
 
 ---
 
 class: center, middle
 
-# Thanks!
+Thank you for your attention, I hope this is helpful. If you have any questions, go ahead and ask in the forum, I would love to help. 
 
 Slides created via the R package [`xaringan`](https://github.com/yihui/xaringan).
 
