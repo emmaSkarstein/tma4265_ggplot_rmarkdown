@@ -42,14 +42,11 @@ Two audiences:
 
 Overall
 
-- **Create reproducible reports in _R_ using Rmarkdown**
+- **Create reproducible reports in _R_ using Rmarkdown**, with a focus on how it can make your life easier when writing reports for assignments.
 
 --
 
-In addition, we will learn how to
-
-- make beautiful plots in ***ggplot2***
-- use ***Github*** for collaboration
+In addition, I will give a short introduction to how to make beautiful plots in ***ggplot2***.
 
 
 ---
@@ -224,7 +221,7 @@ output: pdf_document
 ---
 # Automatic tables from R output
 
-[kable](https://haozhu233.github.io/kableExtra/awesome_table_in_pdf.pdf) can be used to create nice tables from R output. This can be really useful, because once you have written the code to automatically generate the table from your R output, your table will automatically update once you make changes to your code.
+[kable](https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html) can be used to create nice tables from R output. This can be really useful, because once you have written the code to automatically generate the table from your R output, your table will automatically update once you make changes to your code.
 
 
 ```r
@@ -257,13 +254,15 @@ Write `?kable` in *R* for more details of the `kable()` function.
 # Workflow
 
 - As you write code, you can run the code chunks directly **just as you would an R-script**
-  - There is both a button to run the individual chunk, and a button to run all the chunks above.
+  - .small[There is both a button to run the individual chunk, and a button to run all the chunks above.]
 - When you knit the file, all the code will be run in a blank environment.
 - Is the code really slow? Check out [cache options](https://bookdown.org/yihui/rmarkdown-cookbook/cache.html)
 - It can be a good idea to knit the document once in a while so you can fix any bugs as they arise. 
 - Errors I see a lot: 
-  - Using `\begin{align}` instead of `\begin{aligned}` (you can use `align`, but then you need to include the *amsmath* LaTeX package)
-  - Blank lines inside equations will lead to errors.
+  - .small[Using `\begin{align}` instead of `\begin{aligned}` (you can use `align`, but then you need to include the *amsmath* LaTeX package)]
+  - .small[Blank lines inside equations will lead to errors.]
+- For group collaborations, it is really useful to use GitHub. If you are new to GitHub, I recommend using [GitHub desktop](https://desktop.github.com/), it makes it a lot easier! 
+  - .small[To avoid merge conflicts, it may be a god idea to not push the compiled PDF to the GitHub repo, only the .rmd file, and then each group member knits the pdf locally while working on it.]
 
 ---
 # Best practices for this course
@@ -322,7 +321,22 @@ class: inverse, center, middle
 - It gives you a recognizable system - when you have understood the structure of `ggplot2` it is very easy to understand how to modify things to get exactly the plot you want. 
 
 ---
-# 
+# The components of ggplot2
+
+|                 |                                    |
+| --------------- | ---------------------------------- |
+| `ggplot(data)`  | The **data** that you want to build your graphic on. |
+| `aes()`         | **Aesthetic mappings** between your data and visual properties of your graphic. |
+| `geom_*()`      | The **geometric shapes** representing the data. |
+
+
+
+```r
+ggplot(data, aes(x = ..., y = ..., color = ...)) +
+  geom_*()
+```
+
+
 
 ---
 # First steps
@@ -396,7 +410,7 @@ ggplot(data = penguins,
        aes(x = flipper_length_mm, y = body_mass_g))
 ```
 .pull-left[
-&lt;img src="index_files/figure-html/unnamed-chunk-16-1.png" width="90%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-17-1.png" width="90%" /&gt;
 ]
 .pull-right[
 Let's say we want to plot the flipper length against body mass. We use the `ggplot()` function, and specify the data set, and what we want on the x- and y-axis. If we run this, we see the initialized plot.
@@ -413,7 +427,7 @@ ggplot(data = penguins,
 ```
 
 .pull-left[
-&lt;img src="index_files/figure-html/unnamed-chunk-18-1.png" width="90%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-19-1.png" width="90%" /&gt;
 ]
 
 .pull-right[
@@ -431,7 +445,7 @@ ggplot(data = penguins,
 ```
 
 .pull-left[
-&lt;img src="index_files/figure-html/unnamed-chunk-20-1.png" width="90%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-21-1.png" width="90%" /&gt;
 ]
 
 .pull-right[
@@ -450,7 +464,7 @@ ggplot(data = penguins,
 ```
 
 .pull-left[
-&lt;img src="index_files/figure-html/unnamed-chunk-22-1.png" width="90%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-23-1.png" width="90%" /&gt;
 ]
 
 .pull-right[
@@ -470,7 +484,7 @@ ggplot(data = penguins,
 ```
 
 .pull-left[
-&lt;img src="index_files/figure-html/unnamed-chunk-24-1.png" width="90%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-25-1.png" width="90%" /&gt;
 ]
 
 .pull-right[
@@ -491,7 +505,7 @@ ggplot(data = penguins,
 ```
 
 .pull-left[
-&lt;img src="index_files/figure-html/unnamed-chunk-26-1.png" width="90%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-27-1.png" width="90%" /&gt;
 
 ```
 ## List of 93
@@ -937,7 +951,7 @@ ggplot(data = penguins,
 ```
 
 .pull-left[
-&lt;img src="index_files/figure-html/unnamed-chunk-28-1.png" width="90%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-29-1.png" width="90%" /&gt;
 ]
 
 .pull-right[
@@ -973,7 +987,7 @@ ggplot(data = penguins,
 ```
 
 .pull-left[
-&lt;img src="index_files/figure-html/unnamed-chunk-31-1.png" width="90%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-32-1.png" width="90%" /&gt;
 ]
 
 .pull-right[
@@ -993,13 +1007,15 @@ You can see some more examples of `ggplot2` plots with the `palmerpenguin` data 
 - Slides from a talk by Cédric Scherer, ["Graphic design with ggplot2"](https://rstudio-conf-2022.github.io/ggplot2-graphic-design/) 
   - .small[A really great reference, goes into _great_ detail of all the options of ggplot2]
 
+
 ---
 
 class: center, middle
 
-Thank you for your attention, I hope this is helpful. If you have any questions, go ahead and ask in the forum, I would love to help. 
+Thank you for your attention, I hope this is helpful. If you have any questions, go ahead and ask in the forum, I would love to help!
 
-Slides created via the R package [`xaringan`](https://github.com/yihui/xaringan).
+Slides created via the R package [`xaringan`](https://github.com/yihui/xaringan), all code is available [on GitHub](https://github.com/emmaSkarstein/tma4265_ggplot_rmarkdown).
+
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
