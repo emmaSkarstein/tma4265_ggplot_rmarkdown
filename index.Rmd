@@ -315,6 +315,13 @@ class: inverse, center, middle
 # Why `ggplot2`?
 
 - It gives you a recognizable system - when you have understood the structure of `ggplot2` it is very easy to understand how to modify things to get exactly the plot you want. 
+- When you have learned how to tweak the layout it is really easy to create your own style.
+
+Example: [(here is a tutorial)](https://r-graph-gallery.com/web-lollipop-plot-with-r-mario-kart-64-world-records.html)
+
+```{r, echo=FALSE, out.width="60%"}
+knitr::include_graphics("figs/mario_kart.png")
+```
 
 ---
 # The components of ggplot2
@@ -460,7 +467,7 @@ We can make changes to the layout of the plot by specifying a different theme. T
 ggplot(data = penguins, 
        aes(x = flipper_length_mm, y = body_mass_g)) +
   geom_point(aes(color = species)) +
-  scale_color_manual(values = c("orange", "darkcyan", "hotpink")) +
+  scale_color_manual(values = c("orange", "darkcyan", "hotpink")) + #<<
   theme_bw() 
 ```
 
@@ -487,7 +494,7 @@ ggplot(data = penguins,
   geom_point(aes(color = species)) +
   scale_color_manual(values = c("orange", "darkcyan", "hotpink")) +
   theme_bw() +
-  theme(legend.position = "top")
+  theme(legend.position = "top") #<<
 ```
 
 .pull-left[
@@ -495,7 +502,7 @@ ggplot(data = penguins,
 ggplot(data = penguins, 
        aes(x = flipper_length_mm, y = body_mass_g)) +
   geom_point(aes(color = species)) +
-  scale_color_manual(values = c("orange", "darkcyan", "hotpink")) 
+  scale_color_manual(values = c("orange", "darkcyan", "hotpink")) +
   theme_bw() +
   theme(legend.position = "top") #<<
 ```
@@ -513,27 +520,27 @@ ggplot(data = penguins,
        aes(x = flipper_length_mm, y = body_mass_g)) +
   geom_point(aes(color = species)) +
   scale_color_manual(values = c("orange", "darkcyan", "hotpink")) +
-  xlab("Body mass (g)") + ylab("Flipper length (mm)") + #<<
-  labs(color = "Species") + #<<
+  labs(color = "Species", #<<
+       x = "Body mass (g)", y = "Flipper length (mm)") + #<<
   theme_bw() +
   theme(legend.position = "top")
 ```
 
 .pull-left[
-```{r echo = FALSE, warning = FALSE, out.width="90%"}
+```{r echo = FALSE, warning = FALSE, out.width="60%"}
 ggplot(data = penguins, 
        aes(x = flipper_length_mm, y = body_mass_g)) +
   geom_point(aes(color = species)) +
   scale_color_manual(values = c("orange", "darkcyan", "hotpink")) +
-  xlab("Body mass (g)") + ylab("Flipper length (mm)") + #<<
-  labs(color = "Species") + #<<
+  labs(color = "Species", #<<
+       x = "Body mass (g)", y = "Flipper length (mm)") + #<<
   theme_bw() +
   theme(legend.position = "top")
 ```
 ]
 
 .pull-right[
-We can change the axis titles by using `xlab()` and `ylab()`, and the legend title can be changed in `labs()`. The reason we specify `color = "Species` is that we want the legend for color to have this title. `labs()` is also where you can add a title, subtitle and caption.
+We can change the axis and legend titles by using `labs()`. The reason we specify `color = "Species"` is that we want the legend for color to have this title. `labs()` is also where you can add a title, subtitle and caption.
 ]
 
 ---
@@ -557,17 +564,21 @@ ggplot(data = penguins,
        aes(x = flipper_length_mm, y = body_mass_g)) +
   geom_point(aes(color = species)) +
   scale_color_manual(values = c("orange", "darkcyan", "hotpink")) +
+  labs(color = "Species", 
+       x = "Body mass (g)", y = "Flipper length (mm)") + 
   theme_bw() +
   theme(legend.position = "top",
         text = element_text(family = "Josefin Sans")) #<<
 ```
 
 .pull-left[
-```{r echo = FALSE, message = FALSE, warning = FALSE, out.width="90%"}
+```{r echo = FALSE, message = FALSE, warning = FALSE, out.width="60%"}
 ggplot(data = penguins, 
        aes(x = flipper_length_mm, y = body_mass_g)) +
   geom_point(aes(color = species)) +
   scale_color_manual(values = c("orange", "darkcyan", "hotpink")) +
+  labs(color = "Species", 
+       x = "Body mass (g)", y = "Flipper length (mm)") + 
   theme_bw() +
   theme(legend.position = "top",
         text = element_text(family = "Josefin Sans")) #<<
@@ -588,7 +599,7 @@ You can see some more examples of `ggplot2` plots with the `palmerpenguin` data 
 # **ggplot2** resources
 - [The R graph gallery](https://r-graph-gallery.com/): different graphs in base R and ggplot2, many examples and tutorials.
 - [ggplot2 cheatsheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-visualization.pdf)
-- Slides from a talk by Cédric Scherer, ["Graphic design with ggplot2"](https://rstudio-conf-2022.github.io/ggplot2-graphic-design/) 
+- Tutorial by Cédric Scherer, ["Graphic design with ggplot2"](https://www.cedricscherer.com/2019/08/05/a-ggplot2-tutorial-for-beautiful-plotting-in-r/) 
   - .small[A really great reference, goes into _great_ detail of all the options of ggplot2]
 
 

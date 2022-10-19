@@ -27,7 +27,9 @@ You can also embed plots, for example:
 plot(pressure)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+## Including equations
+
+Here is an example of an equation over two lines.
 
 $$
 \begin{aligned}
@@ -36,9 +38,47 @@ $$
 \end{aligned}
 $$
 
+## Including tables
+We can use `kable()` to generate tables from R output very easily. Here is a centered booktabs-style table with a caption. 
+
 ```{r}
 library(kableExtra)
 some_cars <- mtcars[1:5, 1:6]
-kable(some_cars, booktabs = TRUE)
+kable(some_cars, booktabs = TRUE, caption = "A table of some car data.") |> 
+    kable_styling(position = "center")
 ```
 
+## Using `ggplot2` in Rmarkdown
+
+
+```{r, message = FALSE}
+# Load some packages. The package showtext prints some messages when you load it, and this doesn't look very nice in the report, so we write message = FALSE.
+library(ggplot2)
+library(palmerpenguins)
+library(showtext)
+showtext_auto()
+font_add_google(name = "Josefin Sans", family = "Josefin Sans")
+```
+
+We make a simple figure from the penguin data. Notice that we use the option `warning = FALSE`, because `ggplot2` prints some warnings because there are some missing values in the data. This isn't a problem here, and the warnings look ugly in our report, so we remove them.
+
+```{r, warning = FALSE, fig.cap="The Palmer penguin figure from the slides, an example of plotting in ggplot2. This version is the most simple version, using default themes and colors."}
+ggplot(data = penguins,  # Add the data
+       aes(x = flipper_length_mm, y = body_mass_g)) + # Map the x and y axis to the respective variables
+  geom_point(aes(color = species)) # Add points, and map the color to the penguin species
+```
+
+
+```{r, warning = FALSE, fig.cap="The Palmer penguin figure from the slides, an example of plotting in ggplot2. In this version we have changed the theme, colors and font, and moved the legend to the top."}
+ggplot(data = penguins,  # Add the data
+       aes(x = flipper_length_mm, y = body_mass_g)) + # Map the x and y axis to the respective variables
+  geom_point(aes(color = species)) + # Add points, and map the color to the penguin species
+  scale_color_manual(values = c("orange", "darkcyan", "hotpink")) + # Change the default colors
+  labs( # Change labels in the plot
+    color = "Species", # Change the legend title
+    x = "Body mass (g)", y = "Flipper length (mm)") + # Change the axis titles
+  theme_bw() + # Use a different theme
+  theme( # Customize the theme
+    legend.position = "top", # Move the legend to the top
+    text = element_text(family = "Josefin Sans")) # Change the font
+```
